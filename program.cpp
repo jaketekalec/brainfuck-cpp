@@ -5,8 +5,6 @@
 
 #include "program.h"
 
-//Add a constructor that takes an ostream for
-//normal output and an ostream for memdumps
 Program::Program(string prog) {
     program = prog;
     input = "";
@@ -21,7 +19,7 @@ Program::Program(string prog, string in) {
     inputPtr = 0;
 }
 
-void Program::execute() {
+string Program::execute() {
     char ch;
     int loop;
     ofstream dumpfile("dumps\\middump.txt");
@@ -47,6 +45,7 @@ void Program::execute() {
 
     //Iterate through program to execute
     //loopStack is repurposed
+    ////I've heard of polymorphism, but this is ridiculous!
     for(;pointer<program.size();pointer++) {
         ch = program[pointer];
         if(ch=='<') mem.movePtrLeft();
@@ -54,9 +53,7 @@ void Program::execute() {
         else if(ch=='+') mem.incr();
         else if(ch=='-') mem.decr();
         else if(ch=='.') {
-            //Don't print problematic control characters if you're using cout (files are OK though)
-            //if(mem.atPtr()>=0x20) 
-                dumpfile << mem.atPtr();
+            output += mem.atPtr();
         } 
         else if(ch==',') {
             if(input[inputPtr]!=0x00 && inputPtr<=input.length()) {
@@ -84,6 +81,7 @@ void Program::execute() {
             memDump(); //Get this working properly
         }
     }
+    return output;
 }
 
 string Program::memDump() {

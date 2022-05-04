@@ -13,12 +13,13 @@ class Program {
         Program();
         Program(string);
         Program(string,string);
-        void execute();
+        string execute();
         void setProgram(string pstr) {program=pstr;}
         string memDump();
     private:
-        string program;
-        string input;
+        string program = "";
+        string input = "";
+        string output = "";
         int pointer;
         int inputPtr;
         Memory mem;
