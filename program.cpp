@@ -22,7 +22,6 @@ Program::Program(string prog, string in) {
 string Program::execute() {
     char ch;
     int loop;
-    ofstream dumpfile("dumps\\middump.txt");
     stack<int> loopStack;
     pair<int,int> currLoop;//*loops.begin();
 
@@ -78,12 +77,8 @@ string Program::execute() {
             }
         }
         else if(ch=='#') {
-            memDump(); //Get this working properly
+            addMemDump();
         }
     }
     return output;
-}
-
-string Program::memDump() {
-    return mem.dump();
 }

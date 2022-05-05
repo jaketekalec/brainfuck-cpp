@@ -17,25 +17,33 @@ int main(int argc, char *argv[]) {
     }
 
     ifstream progfile(argv[1]);
-    ofstream dumpfile("dumps\\finaldump.txt");
+    ofstream dumpfile;
     string programStr;
     string input;
     string output;
     string line;
+    vector<string> dumps;
 
     cout << "Input:" << endl;
 
+    //Why is this the most straight-forward way to read a whole file in c++??
     while(getline(progfile,line)) {
         programStr += line;
     }
     getline(cin,input);
-    dumpfile << input << endl;
     Program prog(programStr,input);
 
     output = prog.execute();
-    dumpfile << prog.memDump();
+    prog.addMemDump();
+    dumps = prog.getMemDumps();
+    int i = 0;
+    for (string dump : dumps) {
+        dumpfile.open("dumps\\dump"+to_string(i)+".txt",ofstream::out);
+        dumpfile.write(dump.c_str(),dump.size());
+        dumpfile.close();
+        i++;
+    }
     cout << output;
     progfile.close();
-    dumpfile.close();
     return 0;
 }

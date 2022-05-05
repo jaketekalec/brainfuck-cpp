@@ -4,6 +4,7 @@
 #include <stack>
 #include <iterator>
 #include <map>
+#include <vector>
 #include "memory.h"
 
 using namespace std;
@@ -15,7 +16,8 @@ class Program {
         Program(string,string);
         string execute();
         void setProgram(string pstr) {program=pstr;}
-        string memDump();
+        void addMemDump() {memDumps.push_back(mem.dump());}
+        vector<string> getMemDumps() {return memDumps;};
     private:
         string program = "";
         string input = "";
@@ -23,6 +25,7 @@ class Program {
         int pointer;
         int inputPtr;
         Memory mem;
+        vector<string> memDumps;
         map<int,int> loops;
 };
 #endif
