@@ -32,18 +32,27 @@ string Program::execute() {
     for(int i=0;i<program.size();i++) {
         ch = program[i];
 
-        //Add try/catch block to account for unmatched brackets
         if(ch=='[') {
             loopStack.push(i);
         }
-        else if(ch==']') {
+        else if(ch==']' && !loopStack.empty()) {
             loops.insert(pair<int,int>(loopStack.top(),i));
             loopStack.pop();
         }
+        else if(ch==']' && loopStack.empty()) {
+            cerr << "Error: Unmatched ']' at " << i << endl;
+            exit(1);
+        }
+    }
+
+    if(!loopStack.empty()) {
+        cerr << "Error: Unmatched '[' at " << loopStack.top() << endl;
+        exit(1);
     }
 
     //Iterate through program to execute
-    //loopStack is repurposed
+    //loopStack is repurposed to store the
+    //previous '[' position
     ////I've heard of polymorphism, but this is ridiculous!
     for(;pointer<program.size();pointer++) {
         ch = program[pointer];
